@@ -1,7 +1,7 @@
-import { Empleado, Puesto} from "./Types/Empleado"
+import { Empleado, Puesto, Pasante} from "./Types/Empleado"
 
 
-/* CORRECTO */
+/* CORRECTO a*/
 
 
 class ManejadorEmpleados {
@@ -40,8 +40,21 @@ const manejadorEmpleados : ManejadorEmpleados = new ManejadorEmpleados('Banco de
 manejadorEmpleados.agregar_empleado('Martin Gubler', 1800000, '20/08/2024', 'Developer')
 manejadorEmpleados.agregar_empleado('Guillermo Eduardo', 2000000, '20/08/2024', 'Project Manager')
 
-const guille : Empleado | undefined = manejadorEmpleados.obtener_empleado_por_id(20)
+const guille : Empleado | undefined = manejadorEmpleados.obtener_empleado_por_id(1)
 
 const developersBancoDeLaPampa : Empleado[] = manejadorEmpleados.obtener_empleados_por_puesto('Developer')
 
+
+const pasante_1 = new Pasante('Pepe', 200000, '20/8/2024', 'Developer', 2, 3)
+
 console.log(developersBancoDeLaPampa)
+guille.aumentarSueldo(40000)
+pasante_1.aumentarSueldo(30000)
+pasante_1.finalizarPasantia()
+guille.presentar()
+pasante_1.presentar()
+
+
+console.log(pasante_1)
+
+console.log(guille)
