@@ -1,9 +1,8 @@
-import { Empleado, Puesto, Pasante} from "./Types/Empleado"
+import { Empleado, Puesto, Pasante} from "./Types/Empleado.js"
 
 
-/* CORRECTO a*/
-
-
+/* Hola */
+/* Chau */
 class ManejadorEmpleados {
     id_empleados: number
     empleados: Empleado[]
@@ -48,13 +47,13 @@ const developersBancoDeLaPampa : Empleado[] = manejadorEmpleados.obtener_emplead
 const pasante_1 = new Pasante('Pepe', 200000, '20/8/2024', 'Developer', 2, 3)
 
 console.log(developersBancoDeLaPampa)
-guille.aumentarSueldo(40000)
+/* guille.aumentarSueldo(40000) */
 pasante_1.aumentarSueldo(30000)
 pasante_1.finalizarPasantia()
-guille.presentar()
-pasante_1.presentar()
+/* guille.presentar() */
+/* pasante_1.presentar() */
 
 
-console.log(pasante_1)
-
-console.log(guille)
+/* console.log(pasante_1) */
+/* 
+console.log(guille) */
