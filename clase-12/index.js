@@ -1,47 +1,25 @@
-import filesystem from 'fs'
-import ERRORES from './constants/errors.js'
+
+import { mongoose } from "./config/mongoDB.config.js";
 
 
+/* 
+MONGO DB NO TIENE SCHEMAS
+Mongoose trae schemas
+ */
 
-const crearTxt = async (nombre_archivo, texto) => {
-    try{
-        if(!nombre_archivo){
-            throw {detail: 'No hay nombre de archivo', name: 'INVALID_ARGUMENT'}
-        }
-        if(!texto){
-            throw {detail: 'No hay texto', name: 'INVALID_ARGUMENT'}
-        }
-        await filesystem.promises.writeFile('./logs/' + nombre_archivo + '.txt', texto, 'utf8' )
-        console.dir('Archivo creado con exito!')
-        return true
+
+const usuarioSchema = new mongoose.Schema(
+    {
+        nombre: {type: String, required: true},
+        email: {type: String, required: true, unique: true},
+        rol: {type: String, required: true},
+        password: {type: String, required: true},
+        telefono: {type: String, required: true},
+        direccion: {type: String, required: true},
+        fecha_registro: {type: Date, default: Date.now}
     }
-    catch(error){
-        const errorCustom = ERRORES[error.name]
-        if(errorCustom){
-            errorCustom.action('index.js linea 31', error.detail)
-        }
-        
+)
 
-        console.log(error)
-        console.error('No se pudo guardar el archivo')
-        throw error
-    }
+const Usuario = mongoose.model('Usuario', usuarioSchema)
 
-}
-
-
-const procesoX = async () =>{
-    try{
-        await crearTxt('log-1')
-        await crearTxt('log-2', 'juan')
-        /* console.log('accion super importante') */
-    }
-    catch(error){
-        console.error('Error en el proceso X')
-    }
-    
-    
-}
-
-
-procesoX()
+new Usuario('pepe', 'pepe@gmail.com', 'user', 'pepe123', '1231434', 'av siempre viva').save()
