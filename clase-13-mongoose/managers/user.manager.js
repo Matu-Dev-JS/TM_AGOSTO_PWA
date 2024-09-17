@@ -45,5 +45,35 @@ const buscarUsuarioPorId = async (id) => {
     }
 }
 
+const actualizarUsuario = async (id, data) => {
+    try{
+        //findByIdAndUpdate
+        //Recibe ID, objeto de cambios, objeto de opciones
+        //id: id del elemento a actualizar
+        //objeto de cambios: objeto con los cambios que queremos hacer en el documento
+        //opciones: objeto de opciones de la actualizacion: ej: {new: true} hace que el metodo retorne el objeto ya actualizado en vez del objeto previo a la actualizacion
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(id, data, {new: true})
+        console.log(usuarioActualizado)
+    }
+    catch(error){
+        console.log("ERROR", error)
+    }
+    
+}
+
+const eliminarUsuarioPorId = async (id) => {
+    try{
+        const resultado = await Usuario.findByIdAndDelete(id)
+        console.log(resultado)
+    }
+    catch(error){
+        console.error(error)
+    }
+}
+
+/* actualizarUsuario('66e97b026aa53285a15f607d', {direccion: 'prueba 5', valor: 'prueba 4'})
+ */
+
+eliminarUsuarioPorId('66e97b026aa53285a15f607d')
 
 export { crearUsuario, buscarUsuarioPorId }
