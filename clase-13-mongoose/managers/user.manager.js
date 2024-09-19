@@ -61,8 +61,17 @@ const actualizarUsuario = async (id, data) => {
     
 }
 
+/**
+ * Elimina un usuario de la base de datos según su ID.
+ *
+ * @param {string} id - ID del usuario a eliminar
+ * @return {object} El resultado de la eliminación
+ */
 const eliminarUsuarioPorId = async (id) => {
     try{
+        if(!id){
+            throw {error: 'No recibi id'}
+        }
         const resultado = await Usuario.findByIdAndDelete(id)
         console.log(resultado)
     }
@@ -77,3 +86,10 @@ const eliminarUsuarioPorId = async (id) => {
 eliminarUsuarioPorId('66e97b026aa53285a15f607d')
 
 export { crearUsuario, buscarUsuarioPorId }
+
+/* 
+TEMAS DE LA CLASE QUE VIENE
+Express y concepto de API
+http status
+POST y GET
+*/
