@@ -16,7 +16,7 @@ productRouter.get('/detail/:lang/:product_id', (req, res) => {
     }
     const {product_id, lang} = req.params
     if(lang == 'es'){
-        res.json({
+        return res.json({
             ok: true,
             status: 200,
             payload: {
@@ -40,3 +40,6 @@ export default productRouter
 
 //Traer detalles el producto con id 1
 //http://localhost:3000/api/product/detail/1
+
+
+
