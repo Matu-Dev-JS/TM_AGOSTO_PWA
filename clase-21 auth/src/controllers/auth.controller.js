@@ -7,6 +7,7 @@ import { sendEmail } from "../utils/mail.util.js"
 
 
 
+
 export const registerUserController = async (req, res) => {
     try{
         const {name, email, password} = req.body
@@ -27,10 +28,13 @@ export const registerUserController = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        const verificationToken = jwt.sign({email: email}, ENVIROMENT.JWT_SECRET, {
+        const verificationToken = jwt.sign(
+            {
+                email: email
+            }, ENVIROMENT.JWT_SECRET, {
             expiresIn: '1d'
         })
-        const url_verification = `http://localhost:${ENVIROMENT.PORT}/auth/verify/${verificationToken}`
+        const url_verification = `http://localhost:${ENVIROMENT.PORT}/api/auth/verify/${verificationToken}`
         await sendEmail({
             to: email,
             subject: 'Valida tu correo electronico',
@@ -79,4 +83,51 @@ export const registerUserController = async (req, res) => {
     }
 
 }
+
+
+export const verifyMailValidationTokenController = async (req, res) => {
+    try{
+        const {verification_token} = req.params
+        if(!verification_token){
+            const response = new ResponseBuilder().setOk(false)
+            .setStatus(400)
+            .setPayload({
+                'detail': 'Falta enviar token'
+            })
+            .build()
+            return res.json(response)
+        }
+        //Verificamos la firma del token, debe ser la misma que mi clave secreta, eso asegura que este token sea emitido por mi servidor
+        //Si fallara la lectura/verificacion/expiracion hara un throw
+        //La constante decoded tiene el payload de mi token
+        const decoded = jwt.verify(verification_token, ENVIROMENT.JWT_SECRET)
+
+        //Busco al usuario en mi DB por email
+        const user = await User.findOne({email: decoded.email})
+        if(!user){
+            //Logica de error de not found
+        }
+        if(user.emailVerified){
+            //Logica de email ya verificado
+        }
+        //En caso de pasar la validaciones
+        user.emailVerified = true
+        //user.verificationToken = undefined
+
+        await user.save()
+        const response = new ResponseBuilder()
+        .setOk(true)
+        .setMessage('Email verificado con exito')
+        .setStatus(200)
+        .setPayload({
+            message: "Usuario validado"
+        })
+        .build()
+        res.json(response)
+    }   
+    catch(error){
+        console.error(error)
+    }
+}
+
 
