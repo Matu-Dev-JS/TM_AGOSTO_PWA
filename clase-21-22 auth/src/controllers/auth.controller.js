@@ -130,4 +130,73 @@ export const verifyMailValidationTokenController = async (req, res) => {
     }
 }
 
+export const loginController = async (req, res) => {
+    try{
+        const {email, password} = req.body
+        const user = await User.findOne({email})
+        if(!user){
+            const response = new ResponseBuilder()
+            .setOk(false)
+            .setStatus(404)
+            .setMessage('Usuario no encontrado')
+            .setPayload({
+                detail: 'El email no esta registrado'
+            })
+            .build()
+            return res.json(response)
+        }
+        if(!user.emailVerified){
+            const response = new ResponseBuilder()
+            .setOk(false)
+            .setStatus(403)//Contenido prohebido para usuarios que no tengan su email verificado
+            .setMessage('Email no verificado')
+            .setPayload(
+                {
+                    detail: 'Por favor, verifica tu correo electronico antes de iniciar sesion'
+                }
+            )
+            .build()
+            return res.json(response)
+        }
 
+        const isValidPassword = await bcrypt.compare(password, user.password)
+        if(!isValidPassword){
+            const response = new ResponseBuilder()
+            .setOk(false)
+            .setStatus(401)
+            .setMessage('Credenciales incorrectas')
+            .setPayload({
+                detail: 'Contraseña incorrecta'
+            })
+            .build()
+            return res.json(response)
+        }
+        const token = jwt.sign({email: user.email, id: user._id}, ENVIROMENT.JWT_SECRET, { expiresIn: '1d'})
+        const response = new ResponseBuilder()
+        .setOk(true)
+        .setStatus(200)
+        .setMessage('Logueado')
+        .setPayload({
+            token,
+            user: {
+                id:user._id,
+                name: user.name,
+                email: user.email
+            }
+        })
+        .build()
+        res.json(response)
+    }
+    catch(error){
+        const response = new ResponseBuilder()
+        .setOk(false)
+        .setStatus(500)
+        .setMessage('Internal server error')
+        .setPayload({
+            detail: error.message
+        })
+        .build()
+        res.json(response)
+    }
+    
+}
