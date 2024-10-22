@@ -1,12 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { extractFormData } from '../../utils/extractFormData'
 
-const extractFormData = (form_fields, form_values) => {
-    for (let field in form_fields) {
-        form_fields[field] = form_values.get(field)
-    }
-    return form_fields
-}
+
 
 const Register = () => {
 
@@ -28,7 +24,15 @@ const Register = () => {
             body: JSON.stringify(form_values_object)
         })
         .then(
-            (response) => { console.log({response})}
+            (responseHTTP) => {
+                console.log({responseHTTP})
+                return responseHTTP.json()
+            }
+        )
+        .then(
+            (body) => {
+                console.log({body})
+            }
         )
         .catch(
             (error) => { console.error(error) }
