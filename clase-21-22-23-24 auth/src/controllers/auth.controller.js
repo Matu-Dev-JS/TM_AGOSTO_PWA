@@ -221,6 +221,7 @@ export const forgotPasswordController = async (req, res) => {
     try{
         const {email} = req.body
         //Validamos que llegue el email
+        console.log(email)
         const user = await UserRepository.obtenerPorEmail(email)
         if(!user){
             //Logica de usuario no encontrado
@@ -258,6 +259,89 @@ export const forgotPasswordController = async (req, res) => {
     }
 }
 
-export const resetTokenController = async (req, res) =>{
+/* export const resetTokenController = async (req, res) =>{
     //Logica de actualizar la contraseña
+} */
+
+export const resetTokenController = async (req, res) => {
+    try {
+        const { password } = req.body
+        const { reset_token } = req.params
+
+        if (!password) {
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setStatus(400)
+                .setMessage('Se requiere la nueva contraseña')
+                .setPayload({
+                    detail: 'Falta contraseña nueva'
+                })
+                .build()
+            return res.json(response)
+        }
+        if (!reset_token) {
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setStatus(400)
+                .setMessage('Token Incorrecto')
+                .setPayload({
+                    detail: 'El reset_token expiro o no es valido'
+                })
+                .build()
+            return res.json(response)
+        }
+
+        const decoded = jwt.verify(reset_token, ENVIROMENT.JWT_SECRET)
+
+        console.log('Token decodificado:',decoded);
+
+        if (!decoded) {
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setStatus(400)
+                .setMessage('Token Incorrecto')
+                .setPayload({
+                    detail: 'Fallo token de verificación'
+                })
+                .build()
+            return res.json(response)
+        }
+
+        const { email } = decoded
+
+        const user = await UserRepository.obtenerPorEmail(email)
+        if (!user) {
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setStatus(400)
+                .setMessage('No se encontro el usuario')
+                .setPayload({
+                    detail: 'Usuario inexistente o invalido'
+                })
+                .build()
+            return res.json(response)
+        }
+        const encriptedPassword = await bcrypt.hash(password, 10);
+   
+        user.password = encriptedPassword
+        await user.save()
+
+        const response = new ResponseBuilder()
+            .setOk(true)
+            .setStatus(200)
+            .setMessage('Contraseña restablecida!')
+            .setPayload({
+                detail: 'Se actualizo la contraseña correctamente'
+            })
+        res.status(200).json(response)
+       
+    }
+    catch (error) {
+        return res.status(500).json({
+            ok: false,
+            message: 'Error interno del servidor',
+            error: error.message,
+        });
+    }
 }
+

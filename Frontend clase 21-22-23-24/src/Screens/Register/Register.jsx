@@ -1,20 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
-
+import useForm from '../../Hooks/useForm'
 
 
 const Register = () => {
+
+    const form_fields = {
+        'name': '',
+        'email': '',
+        'password': ''
+    }
+    const {form_values_state, handleChangeInputValue} = useForm(form_fields)
+    //form_values_state.valor = 'pepe' esto esta MAL porque es un estado
 
     const handleSubmitRegisterForm = (event) => {
         event.preventDefault()
         const form_HTML = event.target
         const form_values = new FormData(form_HTML)
-        const form_fields = {
-            'name': '',
-            'email': '',
-            'password': ''
-        }
+        
         const form_values_object = extractFormData(form_fields, form_values)
         fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
@@ -44,15 +48,30 @@ const Register = () => {
             <form onSubmit={handleSubmitRegisterForm}>
                 <div>
                     <label htmlFor='name'>Ingrese su nombre:</label>
-                    <input name='name' id='name' placeholder='Pepe Suarez' />
+                    <input 
+                        name='name' 
+                        id='name' 
+                        placeholder='Pepe Suarez' 
+                        onChange={handleChangeInputValue} 
+                    />
                 </div>
                 <div>
                     <label htmlFor='email'>Ingrese su email:</label>
-                    <input name='email' id='email' placeholder='pepe@gmail.com' />
+                    <input 
+                        name='email' 
+                        id='email' 
+                        placeholder='pepe@gmail.com' 
+                        onChange={handleChangeInputValue} 
+                    />
                 </div>
                 <div>
                     <label htmlFor='password'>Ingrese su contraseña:</label>
-                    <input name='password' id='password' placeholder='pepe@gmail.com' />
+                    <input 
+                        name='password' 
+                        id='password' 
+                        placeholder='pepe@gmail.com' 
+                        onChange={handleChangeInputValue} 
+                    />
                 </div>
                 <button type='submit'>Registrar</button>
             </form>
