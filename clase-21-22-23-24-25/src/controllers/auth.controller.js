@@ -90,7 +90,8 @@ export const registerUserController = async (req, res) => {
         .setMessage('Internal server error')
         .setPayload(
             {
-                detail: error.message
+                detail: error.message,
+                
             }
         )
         .build()

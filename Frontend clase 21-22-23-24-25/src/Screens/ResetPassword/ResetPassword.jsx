@@ -28,6 +28,11 @@ const ResetPassword = () => {
         )
         .then(
             (body) => {
+                //Si hubiera algun error, lo imprimen usando el valor de body
+                //Por ejemplo, pueden cambiar el estado para que aparezca un error
+                if(!body.ok){
+                  //setError()
+              }
                     console.log({body})
             }
         )

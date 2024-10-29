@@ -17,15 +17,13 @@ const Register = () => {
     const handleSubmitRegisterForm = (event) => {
         event.preventDefault()
         const form_HTML = event.target
-        const form_values = new FormData(form_HTML)
-        
-        const form_values_object = extractFormData(form_fields, form_values)
+      
         fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' //Aca le indicamos al back que lo que enviamos es un JSON
             },
-            body: JSON.stringify(form_values_object)
+            body: JSON.stringify(form_values_state)
         })
         .then(
             (responseHTTP) => {
@@ -35,6 +33,11 @@ const Register = () => {
         )
         .then(
             (body) => {
+                //Si hubiera algun error, lo imprimen usando el valor de body
+                //Por ejemplo, pueden cambiar el estado para que aparezca un error
+                if(!body.ok){
+                    //setError()
+                }
                 console.log({body})
             }
         )
