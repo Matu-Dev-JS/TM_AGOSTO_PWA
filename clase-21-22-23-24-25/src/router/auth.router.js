@@ -6,14 +6,15 @@ import {
     resetTokenController, 
     verifyMailValidationTokenController 
 } from "../controllers/auth.controller.js";
+import { verifyApikeyMiddleware } from "../middlewares/auth.middleware.js";
 
 const authRouter = express.Router()
 
-authRouter.post('/register', registerUserController)
+authRouter.post('/register', verifyApikeyMiddleware, registerUserController)
 authRouter.get('/verify/:verification_token', verifyMailValidationTokenController)
-authRouter.post('/login', loginController)
-authRouter.post('/forgot-password', forgotPasswordController)
-authRouter.put('/reset-password/:reset_token', resetTokenController)
+authRouter.post('/login', verifyApikeyMiddleware, loginController)
+authRouter.post('/forgot-password', verifyApikeyMiddleware, forgotPasswordController)
+authRouter.put('/reset-password/:reset_token', verifyApikeyMiddleware, resetTokenController)
 
 /* 
 resetTokenController
