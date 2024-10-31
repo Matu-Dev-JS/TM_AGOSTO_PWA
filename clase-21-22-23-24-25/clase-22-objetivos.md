@@ -1,4 +1,0 @@
--Login (hecho)
--Forgot password
--Middleware
--Seguridad (api-key) y api-token

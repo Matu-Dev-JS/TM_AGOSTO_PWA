@@ -26,7 +26,7 @@ export const registerUserController = async (req, res) => {
             .build()
             return res.status(400).json(response)
         }
-        const existentUser = await User.findOne({email: email})
+        /* const existentUser = await User.findOne({email: email})
         console.log({existentUser})
         if(existentUser){
             const response = new ResponseBuilder()
@@ -40,7 +40,7 @@ export const registerUserController = async (req, res) => {
             )
             .build()
             return res.status(400).json(response)
-        }
+        } */
 
         const hashedPassword = await bcrypt.hash(password, 10)
         const verificationToken = jwt.sign(
@@ -83,6 +83,9 @@ export const registerUserController = async (req, res) => {
         return res.status(201).json(response)
     }
     catch(error){
+        if(error.code === 11000){
+            res.sendStatus(400)
+        }
         console.error('Error al registrar usuario:', error)
         const response = new ResponseBuilder()
         .setOk(false)
