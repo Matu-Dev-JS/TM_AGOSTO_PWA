@@ -36,8 +36,18 @@ const CreateProductScreen = () => {
     }
 
     const handleChangeFile = (evento) => {
+
+		
         //Buscar el archivo que fue subido por ese input
+
         const file_found = evento.target.files[0]
+		const FILE_MB_LIMIT = 2
+		if(file_found && file_found.size > FILE_MB_LIMIT * 1024 * 1024){
+			//TODO: cambiar a estado de error
+			alert(`Error el archivo es muy grande (limite ${FILE_MB_LIMIT} mb)`)
+			return //Cancela la operacion
+		}
+
         const lector_archivos = new FileReader()
 
         //Le decimos al lector de archivos que cuando termine de cargar nos ejecute x callback

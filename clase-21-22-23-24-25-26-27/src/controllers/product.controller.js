@@ -177,13 +177,18 @@ export const createProductController = async (req, res) => {
                 .build()
             return res.status(400).json(response)
         }
+
+        if(image && Buffer.byteLength(image, 'base64') > 2 * 1024 * 1024){
+            console.error('Imagen muy grande')
+            return res.sendStatus(400)
+        }
         const newProduct = {
             title,
             price,
             stock,
             descripcion: description,
             category,
-            image,
+            image_base_64: Buffer.from(image, 'base64'),
             seller_id
         }
         const newProductSaved = await ProductRepository.createProduct(newProduct)

@@ -16,6 +16,21 @@ export const POST = async (URL_API, params) => {
 	
 }
 
+export const GET = async (URL_API, params) => {
+	try{
+		const response = await fetch(URL_API, {
+			method: 'GET',
+			...params
+		})
+		return response.json()
+	}
+	catch(error){
+		console.log(error)
+		throw error
+		
+	}
+}
+
 
 const unnauthenticatedHeaders = new Headers()
 unnauthenticatedHeaders.set('Content-Type', 'application/json')
