@@ -44,19 +44,32 @@ response: {
 export const getAllProductController = async (req, res) => {
     try{
 
-        const products = await ProductRepository.getProducts()
+        const products_from_db = await ProductRepository.getProducts()
+        console.log(products_from_db)
+
+        const products =  products_from_db.map(product => {
+
+            return {
+                ...product._doc, 
+                id: product._id,
+                //image: Buffer.from(product.image_base_64, 'base64').toString('base64')
+            }
+        })
+
+        console.log(products)
+
         const response = new ResponseBuilder()
         .setOk(true)
         .setStatus(200)
         .setMessage('Productos obtenidos')
         .setPayload({
-            products: products
+            products
         })
         .build()
         return res.json(response)
     }
     catch(error){
-
+        console.error(error)
     }
 }
 
