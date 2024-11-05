@@ -105,8 +105,9 @@ export const getProductByIdController = async (req, res) => {
 
 export const createProductController = async (req, res) => {
     try {
-        const { title, price, stock, descripcion, category, image } = req.body
 
+        const { title, price, stock, description, category, image } = req.body
+        console.log(req.body)
         //ESTO ES CLAVE, el seller_id NO debe venir del body, debe venir en el req.user (que a su vez viene del token de login con los datos de la sesion del usuario)
         const seller_id = req.user.id
         if (!title) {
@@ -142,7 +143,7 @@ export const createProductController = async (req, res) => {
                 .build()
             return res.status(400).json(response)
         }
-        if (!descripcion) {
+        if (!description) {
             const response = new ResponseBuilder()
                 .setOk(false)
                 .setStatus(400)
@@ -180,7 +181,7 @@ export const createProductController = async (req, res) => {
             title,
             price,
             stock,
-            descripcion: descripcion,
+            descripcion: description,
             category,
             image,
             seller_id

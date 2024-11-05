@@ -1,23 +1,37 @@
 import React, { useState } from 'react'
+import { authenticatedHeaders, POST } from '../../fetching/http.fetching'
+import { extractFormData } from '../../utils/extractFormData'
 
 const CreateProductScreen = () => {
-
+	
     const [image, setImage] = useState('')
     const handleSubmitNewProduct = async (e) => {
         try{
+			
 			e.preventDefault()
 			const form_HTML = e.target
 			const form_Values = new FormData(form_HTML)
 			const form_fields = {
-				'email': '',
-				'password': ''
+				title: '',
+				price: '',
+				stock: '',
+				description: '',
+				category: ''
 			}
 			const form_values_object = extractFormData(form_fields, form_Values)
-			const response = await POST('http://localhost:3000/api/products', form_values_object)
+
+			//Agregamos la image al objeto con los valores de mi form
+			form_values_object.image = image
+			console.log('evento submit')
+			const response = await POST('http://localhost:3000/api/products', {
+				headers: authenticatedHeaders,
+				body: JSON.stringify(form_values_object)
+			})
 			console.log({response})
 		}
 		catch(error){
 			//manejan sus errores
+			console.error(error)
 		}
     }
 
@@ -44,11 +58,11 @@ const CreateProductScreen = () => {
         <form onSubmit={handleSubmitNewProduct}>
                 <div>
 					<label htmlFor='titulo'>Ingrese el titulo:</label>
-					<input name='titulo' id='titulo' placeholder='pepe@gmail.com' />
+					<input name='title' id='titulo' placeholder='pepe@gmail.com' />
 				</div>
 				<div>
 					<label htmlFor='precio'>Ingrese el precio:</label>
-					<input name='precio' id='precio' />
+					<input name='price' id='precio' />
 				</div>
                 <div>
 					<label htmlFor='stock'>Ingrese el stock:</label>
@@ -56,7 +70,7 @@ const CreateProductScreen = () => {
 				</div>
                 <div>
 					<label htmlFor='descripcion'>Ingrese la descripcion:</label>
-					<textarea name="descripcion" id="descripcion"></textarea>
+					<textarea name="description" id="descripcion"></textarea>
 				</div>
                 <div>
 					<label htmlFor='category'>Ingrese la categoria:</label>

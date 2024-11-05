@@ -10,6 +10,7 @@ export const verifyTokenMiddleware = (roles_permitidos = []) => {
     return (req, res, next) => {
         try {
             const auth_header = req.headers['authorization']
+
             if (!auth_header) {
                 const response = new ResponseBuilder()
                     .setOk(false)

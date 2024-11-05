@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
 import useForm from '../../Hooks/useForm'
+import { POST, unnauthenticatedHeaders } from '../../fetching/http.fetching'
 
 
 const Register = () => {
@@ -14,36 +15,18 @@ const Register = () => {
     const {form_values_state, handleChangeInputValue} = useForm(form_fields)
     //form_values_state.valor = 'pepe' esto esta MAL porque es un estado
 
-    const handleSubmitRegisterForm = (event) => {
+    const handleSubmitRegisterForm =async (event) => {
         event.preventDefault()
         const form_HTML = event.target
-      
-        fetch('http://localhost:3000/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json' //Aca le indicamos al back que lo que enviamos es un JSON
-            },
-            body: JSON.stringify(form_values_state)
-        })
-        .then(
-            (responseHTTP) => {
-                console.log({responseHTTP})
-                return responseHTTP.json()
+
+        const body = await POST(
+            'http://localhost:3000/api/auth/register',
+            {
+                headers: unnauthenticatedHeaders,
+                body: JSON.stringify(form_values_object)
             }
         )
-        .then(
-            (body) => {
-                //Si hubiera algun error, lo imprimen usando el valor de body
-                //Por ejemplo, pueden cambiar el estado para que aparezca un error
-                if(!body.ok){
-                    //setError()
-                }
-                console.log({body})
-            }
-        )
-        .catch(
-            (error) => { console.error(error) }
-        )
+        console.log(body)
     }
     return (
         <div>
