@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
-import { POST } from '../../fetching/http.fetching'
+import { POST, unnauthenticatedHeaders } from '../../fetching/http.fetching'
 
 
 
@@ -16,7 +16,12 @@ const ForgotPassword = () => {
 				'email': ''
 			}
 			const form_values_object = extractFormData(form_fields, form_Values)
-			const body = await POST('http://localhost:3000/api/auth/forgot-password', form_values_object)
+			console.log(form_values_object)
+			const body = await POST('http://localhost:3000/api/auth/forgot-password', 
+			{
+				headers: unnauthenticatedHeaders,
+				body: JSON.stringify(form_values_object)
+			})
 			//const body = await sendEmailForgot(form_values_object)
 			//Si hubiera algun error, lo imprimen usando el valor de body
 			//Por ejemplo, pueden cambiar el estado para que aparezca un error

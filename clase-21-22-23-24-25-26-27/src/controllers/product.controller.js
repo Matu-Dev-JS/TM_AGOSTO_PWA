@@ -45,18 +45,16 @@ export const getAllProductController = async (req, res) => {
     try{
 
         const products_from_db = await ProductRepository.getProducts()
-        console.log(products_from_db)
+        
 
         const products =  products_from_db.map(product => {
-
+            
             return {
                 ...product._doc, 
                 id: product._id,
-                //image: Buffer.from(product.image_base_64, 'base64').toString('base64')
+                image: product.image_base_64.toString('base64')
             }
         })
-
-        console.log(products)
 
         const response = new ResponseBuilder()
         .setOk(true)
@@ -201,7 +199,7 @@ export const createProductController = async (req, res) => {
             stock,
             descripcion: description,
             category,
-            image_base_64: Buffer.from(image, 'base64'),
+            image_base_64: image,
             seller_id
         }
         const newProductSaved = await ProductRepository.createProduct(newProduct)

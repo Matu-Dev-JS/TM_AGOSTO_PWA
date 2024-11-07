@@ -4,7 +4,7 @@ import { createProductController, deleteProductController, getAllProductControll
 
 const productRouter = express.Router()
 
-productRouter.use(verifyApikeyMiddleware)
+
 
 productRouter.get('/', verifyTokenMiddleware(), getAllProductController)
 productRouter.get("/:product_id", verifyTokenMiddleware(), getProductByIdController)

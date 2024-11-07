@@ -5,7 +5,7 @@ import { verifyApikeyMiddleware, verifyTokenMiddleware } from "../middlewares/au
 
 const statusRouter = express.Router()
 
-statusRouter.use(verifyApikeyMiddleware)
+
 
 statusRouter.get('/ping', getPingController)
 statusRouter.get('/protected-route/ping', verifyTokenMiddleware(['admin', 'user']), getPingController)

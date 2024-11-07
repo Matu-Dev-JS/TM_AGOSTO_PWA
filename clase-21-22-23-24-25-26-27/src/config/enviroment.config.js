@@ -9,7 +9,13 @@ const ENVIROMENT = {
     JWT_SECRET: process.env.JWT_SECRET,
     GMAIL_PASS: process.env.GMAIL_PASS,
     GMAIL_USER: process.env.GMAIL_USER,
-    API_KEY_INTERN: process.env.API_KEY_INTERN
+    API_KEY_INTERN: process.env.API_KEY_INTERN,
+    MYSQL: {
+        USERNAME: process.env.MYSQL_USERNAME, //si es local 'root'
+        HOST: process.env.MYSQL_HOST, //localhost
+        PASSWORD: process.env.MYSQL_PASSWORD, //''
+        DATABASE: process.env.MYSQL_DATABASE //nombre_base_datos
+    }
 }
 
 export default ENVIROMENT
