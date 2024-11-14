@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { authenticatedHeaders, GET, unnauthenticatedHeaders } from '../../fetching/http.fetching'
+import { getAuthenticatedHeaders, GET, getUnnauthenticatedHeaders} from '../../fetching/http.fetching'
 import useProducts from '../../Hooks/useProducts'
 
 
@@ -37,12 +37,12 @@ const ProductsList = ({products}) => {
 }
 
 const Product = ({title, price, stock, description, image_base_64, id}) => {
-	console.log(image_base_64)
+
 	return (
 		<div>
 			<h2>{title}</h2>
 			<img 
-                    src={`data:image/jpeg;base64,${image_base_64}`} 
+                    src={image_base_64} 
                     alt={title} 
                     width={'200'} 
                 />

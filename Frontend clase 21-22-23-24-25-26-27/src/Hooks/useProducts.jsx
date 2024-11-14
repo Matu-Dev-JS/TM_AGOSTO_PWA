@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { authenticatedHeaders, GET } from "../fetching/http.fetching"
+import { getAuthenticatedHeaders, GET } from "../fetching/http.fetching"
 
 const useProducts = () => {
     const [products, setProducts] = useState([])
@@ -7,7 +7,7 @@ const useProducts = () => {
 
     const getProducts = async () => {
         const response = await GET('http://localhost:3000/api/products', {
-            headers: authenticatedHeaders
+            headers: getAuthenticatedHeaders()
         })
     
         console.log({response})

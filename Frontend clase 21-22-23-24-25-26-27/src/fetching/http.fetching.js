@@ -31,19 +31,24 @@ export const GET = async (URL_API, params) => {
 	}
 }
 
+const getUnnauthenticatedHeaders = () =>{
+	const unnauthenticatedHeaders = new Headers()
+	unnauthenticatedHeaders.set('Content-Type', 'application/json')
+	unnauthenticatedHeaders.set('x-api-key', '8e849ec1-2977-404c-88c0-c8d2246d498f')
+	return unnauthenticatedHeaders
+}
 
-const unnauthenticatedHeaders = new Headers()
-unnauthenticatedHeaders.set('Content-Type', 'application/json')
-unnauthenticatedHeaders.set('x-api-key', '8e849ec1-2977-404c-88c0-c8d2246d498f')
+const getAuthenticatedHeaders = () => {
+	const authenticatedHeaders = new Headers()
+	authenticatedHeaders.set('Content-Type', 'application/json')
+	authenticatedHeaders.set('x-api-key', '8e849ec1-2977-404c-88c0-c8d2246d498f')
+	authenticatedHeaders.set('Authorization', 'Bearer ' + sessionStorage.getItem('access_token'))
+	return authenticatedHeaders
+}
 
 
-const authenticatedHeaders = new Headers()
-authenticatedHeaders.set('Content-Type', 'application/json')
-authenticatedHeaders.set('x-api-key', '8e849ec1-2977-404c-88c0-c8d2246d498f')
-authenticatedHeaders.set('Authorization', 'Bearer ' + sessionStorage.getItem('access_token'))
 
-
-export {authenticatedHeaders, unnauthenticatedHeaders}
+export {getAuthenticatedHeaders,getUnnauthenticatedHeaders}
 //Crear GET, PUT, DELETE
 
 

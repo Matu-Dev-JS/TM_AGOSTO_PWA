@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
 import useForm from '../../Hooks/useForm'
-import { POST, unnauthenticatedHeaders } from '../../fetching/http.fetching'
+import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'
 
 
 const Register = () => {
@@ -22,7 +22,7 @@ const Register = () => {
         const body = await POST(
             'http://localhost:3000/api/auth/register',
             {
-                headers: unnauthenticatedHeaders,
+                headers: getUnnauthenticatedHeaders(),
                 body: JSON.stringify(form_values_object)
             }
         )

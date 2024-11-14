@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { authenticatedHeaders, POST } from '../../fetching/http.fetching'
+import { getAuthenticatedHeaders, POST } from '../../fetching/http.fetching'
 import { extractFormData } from '../../utils/extractFormData'
 
 const CreateProductScreen = () => {
@@ -24,7 +24,7 @@ const CreateProductScreen = () => {
 			form_values_object.image = image
 			console.log('evento submit')
 			const response = await POST('http://localhost:3000/api/products', {
-				headers: authenticatedHeaders,
+				headers: getAuthenticatedHeaders(),
 				body: JSON.stringify(form_values_object)
 			})
 			console.log({response})

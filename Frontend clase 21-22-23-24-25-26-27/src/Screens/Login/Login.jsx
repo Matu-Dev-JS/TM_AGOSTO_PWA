@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
-import { POST, unnauthenticatedHeaders } from '../../fetching/http.fetching'
+import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'
 
 const Login = () => {	
 	const navigate = useNavigate()
@@ -19,7 +19,7 @@ const Login = () => {
 			const response = await POST(
 				'http://localhost:3000/api/auth/login',
 				{
-					headers: unnauthenticatedHeaders,
+					headers: getUnnauthenticatedHeaders(),
 					body: JSON.stringify(form_values_object)
 				} 
 			)

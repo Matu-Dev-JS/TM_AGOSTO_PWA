@@ -47,21 +47,14 @@ export const getAllProductController = async (req, res) => {
         const products_from_db = await ProductRepository.getProducts()
         
 
-        const products =  products_from_db.map(product => {
-            
-            return {
-                ...product._doc, 
-                id: product._id,
-                image: product.image_base_64.toString('base64')
-            }
-        })
+        
 
         const response = new ResponseBuilder()
         .setOk(true)
         .setStatus(200)
         .setMessage('Productos obtenidos')
         .setPayload({
-            products
+            products: products_from_db
         })
         .build()
         return res.json(response)
@@ -109,6 +102,7 @@ export const getProductByIdController = async (req, res) => {
     }
     catch(error){
         console.error(error.message)
+    
     }
 }
 

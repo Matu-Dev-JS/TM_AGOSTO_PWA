@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema(
             default: true
         },
         image_base_64: {
-            type: Buffer
+            type: String
         },
         seller_id: {
             type: mongoose.Schema.Types.ObjectId, //Debe ser el mismo tipo que el id de la coleccion de User
