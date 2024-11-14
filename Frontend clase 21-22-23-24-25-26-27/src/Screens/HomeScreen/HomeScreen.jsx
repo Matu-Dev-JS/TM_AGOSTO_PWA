@@ -47,7 +47,7 @@ const Product = ({title, price, stock, description, image_base_64, id}) => {
                     width={'200'} 
                 />
 			<span>Precio: ${price}</span>
-			<Link>Ir a detalle</Link>
+			<Link to={'/product/' + id}>Ir a detalle</Link>
 		</div>
 	)
 }
