@@ -4,7 +4,7 @@ import useProductDetail from '../../Hooks/useProductDetail'
 
 const DetailProductScreen = () => {
     const {product_id} = useParams()
-    console.log({product_id})
+
 
     //Llamar al hook useProductDetail
     const { product_detail_state, product_detail_loading, product_detail_error} = useProductDetail(product_id)

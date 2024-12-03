@@ -7,6 +7,7 @@ import ResetPassword from './Screens/ResetPassword/ResetPassword'
 import HomeScreen from './Screens/HomeScreen/HomeScreen'
 import CreateProductScreen from './Screens/CreateProductScreen/CreateProductScreen'
 import DetailProductScreen from './Screens/DetailProductScreen/DetailProductScreen'
+import ProtectedRoute from './Components/ProtectedRoute'
 function App() {
   return (
     <>
@@ -16,9 +17,12 @@ function App() {
         <Route path='/register' element={<Register/>} />
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='/reset-password/:reset_token' element={<ResetPassword/> } />
-        <Route path='/home' element={<HomeScreen/>}/>
-        <Route path='/product/new' element={<CreateProductScreen/>}/>
-        <Route path='/product/:product_id' element={<DetailProductScreen/>} />
+        
+        <Route element={<ProtectedRoute/>}>
+          <Route path='/home' element={<HomeScreen/>}/>
+          <Route path='/product/new' element={<CreateProductScreen/>}/>
+          <Route path='/product/:product_id' element={<DetailProductScreen/>} />
+        </Route>
       </Routes>
     </>
   )
